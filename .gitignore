@@ -1,0 +1,29 @@
+node_modules
+/*/node_modules/
+/*/backend/node_modules/
+/*/frontend/node_modules/[
+
+# Yarn v3
+.yarn
+/*/.yarn/
+/*/backend/.yarn/
+/*/frontend/.yarn/
+
+/*/.vscode
+.env
+
+# Tests
+coverage
+
+# desafio09 .gitignore
+package-lock.json
+node_modules
+.yarn
+dist
+tmp
+.env
+
+.history/
+
+test*
+json
