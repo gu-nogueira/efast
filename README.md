@@ -1,6 +1,6 @@
-# FastFeet
+# Efast
 
-Desafio 09 Rocketseat
+Projeto pessoal & utilizado para TCC - Fatec Botucatu - 2022
 
 ---
 

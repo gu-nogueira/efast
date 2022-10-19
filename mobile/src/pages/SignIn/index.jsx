@@ -16,6 +16,7 @@ import {
 } from './styles';
 
 const SignIn = ({ navigation }) => {
+  console.tron.log(process.env);
   const [deliverymanId, setDeliverymanId] = useState('');
 
   const loading = useSelector((state) => state.auth.loading);
