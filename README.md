@@ -123,6 +123,13 @@ npm run build
 
 # Copy email template files
 cp -f -R /var/www/html/efast/backend/src/app/views /var/www/html/efast/backend/dist/app
+
+# Run scripts
+cd scripts
+node GenerateAddresses.js
+
+# Copy json address files
+cp -f -R /var/www/html/efast/backend/src/app/json /var/www/html/efast/backend/dist/app
 ```
 
 - Frontend
@@ -144,13 +151,13 @@ Instalação: `npm install -g pm2`
 ```bash
 # Frontend
 npm install -g serve
-pm2 serve /var/www/html/efast/frontend/build 3001 --spa --log-date-format 'DD-MM HH:mm:ss' --stop-exit-codes 0
+pm2 serve /var/www/html/efast/frontend/build 3001 --spa --log-date-format 'DD-MM HH:mm:ss'
 
 # API
-pm2 start /var/www/html/efast/backend/dist/server.js --log-date-format 'DD-MM HH:mm:ss' --stop-exit-codes 0
+pm2 start /var/www/html/efast/backend/dist/server.js --log-date-format 'DD-MM HH:mm:ss'
 
 # Queues
-pm2 start /var/www/html/efast/backend/dist/queue.js --log-date-format 'DD-MM HH:mm:ss' --stop-exit-codes 0
+pm2 start /var/www/html/efast/backend/dist/queue.js --log-date-format 'DD-MM HH:mm:ss'
 
 # List
 pm2 list
