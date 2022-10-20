@@ -137,9 +137,9 @@ class DeliveriesController {
       deliveryman_id,
     });
 
-    // /*
-    //  *  Invalidate cached deliveries count
-    //  */
+    /*
+     *  Invalidate cached deliveries count
+     */
 
     // await Cache.invalidate('deliveries_count');
 
@@ -232,18 +232,18 @@ class DeliveriesController {
      *  Check if has new start_date and it's conditions
      */
 
-    if (start_date && start_date != delivery.start_date) {
-      if (parseISO(start_date) < 8 || parseISO(start_date) >= 18) {
-        return res
-          .status(400)
-          .json({ error: 'The start date must be between 08:00 and 18:00' });
-      }
-      if (isBefore(parseISO(start_date), new Date())) {
-        return res
-          .status(400)
-          .json({ error: 'Cannot create new orders with past date' });
-      }
-    }
+    // if (start_date && start_date != delivery.start_date) {
+    //   if (parseISO(start_date) < 8 || parseISO(start_date) >= 18) {
+    //     return res
+    //       .status(400)
+    //       .json({ error: 'The start date must be between 08:00 and 18:00' });
+    //   }
+    //   if (isBefore(parseISO(start_date), new Date())) {
+    //     return res
+    //       .status(400)
+    //       .json({ error: 'Cannot create new orders with past date' });
+    //   }
+    // }
 
     /*
      *  If has end_date, check if delivery has been picked
@@ -277,11 +277,11 @@ class DeliveriesController {
           .status(400)
           .json({ error: 'The end date cannot be before start date' });
       }
-      if (isBefore(parseISO(end_date), new Date())) {
-        return res
-          .status(400)
-          .json({ error: 'Cannot end orders with past date' });
-      }
+      // if (isBefore(parseISO(end_date), new Date())) {
+      //   return res
+      //     .status(400)
+      //     .json({ error: 'Cannot end orders with past date' });
+      // }
     }
 
     const updatedDelivery = await delivery.update(req.body);

@@ -144,16 +144,16 @@ class OrderController {
       const parsedDate = format(parseISO(startDate), 'HH:mm');
       const startDay = format(setMinutes(setHours(new Date(), 8), 0), 'HH:mm');
       const endDay = format(setMinutes(setHours(new Date(), 18), 0), 'HH:mm');
-      if (parsedDate < startDay || parsedDate > endDay) {
-        return res
-          .status(400)
-          .json({ error: 'The start date must be between 08:00 and 18:00' });
-      }
-      if (isBefore(new Date(), parseISO(startDate))) {
-        return res
-          .status(400)
-          .json({ error: 'Cannot withdraw orders in the future' });
-      }
+      // if (parsedDate < startDay || parsedDate > endDay) {
+      //   return res
+      //     .status(400)
+      //     .json({ error: 'The start date must be between 08:00 and 18:00' });
+      // }
+      // if (isBefore(new Date(), parseISO(startDate))) {
+      //   return res
+      //     .status(400)
+      //     .json({ error: 'Cannot withdraw orders in the future' });
+      // }
     }
 
     delivery.start_date = startDate;
@@ -261,21 +261,21 @@ class OrderController {
       const parsedDate = format(parseISO(endDate), 'HH:mm');
       const startDay = format(setMinutes(setHours(new Date(), 8), 0), 'HH:mm');
       const endDay = format(setMinutes(setHours(new Date(), 18), 0), 'HH:mm');
-      if (parsedDate < startDay || parsedDate > endDay) {
-        return res
-          .status(400)
-          .json({ error: 'The start date must be between 08:00 and 18:00' });
-      }
-      if (isBefore(parseISO(endDate), delivery.start_date)) {
-        return res
-          .status(400)
-          .json({ error: 'The end date cannot be before start date' });
-      }
-      if (isBefore(new Date(), parseISO(endDate))) {
-        return res
-          .status(400)
-          .json({ error: 'Cannot delivery orders in the future' });
-      }
+      // if (parsedDate < startDay || parsedDate > endDay) {
+      //   return res
+      //     .status(400)
+      //     .json({ error: 'The start date must be between 08:00 and 18:00' });
+      // }
+      // if (isBefore(parseISO(endDate), delivery.start_date)) {
+      //   return res
+      //     .status(400)
+      //     .json({ error: 'The end date cannot be before start date' });
+      // }
+      // if (isBefore(new Date(), parseISO(endDate))) {
+      //   return res
+      //     .status(400)
+      //     .json({ error: 'Cannot delivery orders in the future' });
+      // }
     }
 
     delivery.signature_id = signatureId || req.fileId;
