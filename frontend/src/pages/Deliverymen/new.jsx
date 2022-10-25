@@ -84,7 +84,7 @@ function DeliverymenNew() {
   return (
     <Form ref={formRef} onSubmit={handleSubmit}>
       <Row mb={30}>
-        <h2>Cadastro de encomendas</h2>
+        <h2>Cadastro de entregador</h2>
         <Wrapper flex>
           <Link to="/deliverymen" className="button grey">
             <MdArrowBack size={20} />

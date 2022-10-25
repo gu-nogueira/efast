@@ -15,7 +15,7 @@ export const Content = styled.div`
   position: relative;
   flex: 1;
   width: 1200px;
-  margin: 50px 0;
+  margin: 114px 0 50px 0;
 
   /*
    *  Cards

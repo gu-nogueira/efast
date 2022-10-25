@@ -101,7 +101,7 @@ function RecipientsNew() {
   return (
     <Form ref={formRef} onSubmit={handleSubmit}>
       <Row mb={30}>
-        <h2>Cadastro de encomendas</h2>
+        <h2>Cadastro de destinatário</h2>
         <Wrapper flex>
           <Link to="/recipients" className="button grey">
             <MdArrowBack size={20} />

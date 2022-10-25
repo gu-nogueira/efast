@@ -71,9 +71,17 @@ export const Content = styled.div`
 
   img {
     display: block;
-    margin: 20px auto 0 auto;
-    width: auto;
-    max-width: 150px;
+    margin: -40px auto 0 auto;
+    width: 180px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 8px;
     transform: rotate(-0.25turn);
+    transition: transform 0.2s;
+  }
+
+  img:hover {
+    transform: rotate(-0.25turn) scale(1.5);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
   }
 `;

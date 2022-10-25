@@ -19,8 +19,8 @@ export const Content = styled.View`
 
 export const CaptureImage = styled.View`
   width: 335px;
-  height: 445px;
-  max-height: 445px;
+  /* height: 600px; */
+  max-height: 88%;
   min-height: 445px;
   margin-bottom: 11px;
 `;
@@ -59,8 +59,7 @@ export const Camera = styled(RNVisionCamera).attrs(
 
 export const Image = styled.ImageBackground`
   width: 335px;
-  height: 445px;
-  max-height: 445px;
+  height: 88%;
   min-height: 445px;
   margin-bottom: 11px;
 `;
@@ -69,7 +68,7 @@ export const Actions = styled.View`
   ${(props) =>
     !props.isCamera &&
     css`
-      height: 445px;
+      height: 89%;
     `};
 
   ${(props) =>
@@ -103,6 +102,7 @@ export const Button = styled.TouchableOpacity`
   border-radius: 4px;
   align-items: center;
   justify-content: center;
+  margin-top: -30px;
 `;
 
 export const Text = styled.Text`

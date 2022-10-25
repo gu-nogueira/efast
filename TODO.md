@@ -28,12 +28,17 @@ Lista de afazeres
 
 ## Frontend
 
-- [DOING] Estilizar modal de visualização de encomenda;
 - Criar rotas:
   - **Forgot**: Esqueci minha senha
   - **Privacy**: Termos de uso e políticas de privacidade
 - Fazer **blacklist** de **redux persist**, verificar quais dados podem ser persistidos ou não
 - Inserir mensagem para verificação na caixa de spam na verificação de e-mail
+
+## Mobile
+
+- Criar pull-to-reload na listagem de encomendas
+- Ajustar ordenação de novas encomendas
+- Criar comunicação via socket pra atualizar a encomenda (tem tempo)
 
 # Finalizados
 
@@ -54,7 +59,9 @@ Lista de afazeres
 
 ## Frontend
 
-- Criar e estruturar projeto ReactJS;
+- Criar e estruturar projeto ReactJS
+- Estilizar modal de visualização de encomenda;
+
 
 ### Design
 

@@ -12,6 +12,8 @@ export const Container = styled.header`
   display: flex;
   justify-content: space-between;
   padding: 15px;
+  position: fixed;
+  z-index: 4;
 
   nav {
     height: 100%;

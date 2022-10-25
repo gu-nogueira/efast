@@ -21,8 +21,8 @@ export default Camera;
 const styles = StyleSheet.create({
   camera: {
     width: '100%',
-    height: '100%',
-    maxHeight: '445px',
+    height: '88%',
+    // maxHeight: '445px',
     minHeight: '445px',
     alignItems: 'center',
   },
