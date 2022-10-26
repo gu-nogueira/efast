@@ -17,7 +17,8 @@ class DeliveryProblems extends Model {
     return this;
   }
 
-  // Foreign keys
+  // ** Foreign keys
+
   static associate(models) {
     this.belongsTo(models.Deliveries, {
       foreignKey: 'delivery_id',

@@ -5,18 +5,22 @@ class Users extends Model {
   static init(sequelize) {
     super.init(
       {
-        // Campos para interagir com a tabela users
         name: Sequelize.STRING,
         email: Sequelize.STRING,
         password: Sequelize.VIRTUAL,
         password_hash: Sequelize.STRING,
+        role: {
+          type: Sequelize.ENUM,
+          values: ['admin', 'deliveryman', 'recipient'],
+        },
       },
       {
         sequelize,
       }
     );
 
-    // Só gera password_hash caso haja password na request
+    // Only generates the hash if the password has been changed
+
     this.addHook('beforeSave', async (user) => {
       if (user.password) {
         user.password_hash = await bcrypt.hash(user.password, 8);
@@ -26,7 +30,12 @@ class Users extends Model {
     return this;
   }
 
-  // Verifica password no banco
+  static associate(models) {
+    this.belongsTo(models.Files, { foreignKey: 'avatar_id', as: 'avatar' });
+  }
+
+  // ** Compare password hash in database
+
   checkPassword(password) {
     return bcrypt.compare(password, this.password_hash);
   }

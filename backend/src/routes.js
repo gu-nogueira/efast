@@ -1,10 +1,12 @@
 import { Router } from 'express';
 
-// Multer
+// ** Multer
 import multer from 'multer';
 import multerConfig from './config/multer';
 
-// Controllers
+// ** Controllers
+
+import UsersController from './app/controllers/UsersController';
 import SessionsController from './app/controllers/SessionsController';
 import RecipientsController from './app/controllers/RecipientsController';
 import FilesController from './app/controllers/FilesController';
@@ -13,7 +15,7 @@ import DeliveriesController from './app/controllers/DeliveriesController';
 import OrdersController from './app/controllers/OrdersController';
 import ProblemsController from './app/controllers/ProblemsController';
 
-// Middlewares
+// ** Middlewares
 import authMiddleware from './app/middlewares/auth';
 import fileMiddleware from './app/middlewares/file';
 
@@ -41,6 +43,8 @@ routes.put(
 );
 
 routes.use(authMiddleware);
+
+routes.get('/users', UsersController.index);
 
 routes.get('/recipients', RecipientsController.index);
 routes.post('/recipients', RecipientsController.store);

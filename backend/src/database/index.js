@@ -5,7 +5,7 @@ import Sequelize from 'sequelize';
 import Users from '../app/models/Users';
 import Recipients from '../app/models/Recipients';
 import Files from '../app/models/Files';
-import Deliverymen from '../app/models/Deliverymen';
+// import Deliverymen from '../app/models/Deliverymen';
 import Deliveries from '../app/models/Deliveries';
 import DeliveryProblems from '../app/models/DeliveryProblems';
 
@@ -17,7 +17,7 @@ const models = [
   Users,
   Recipients,
   Files,
-  Deliverymen,
+  // Deliverymen,
   Deliveries,
   DeliveryProblems,
 ];
@@ -37,7 +37,7 @@ class Database {
         .map(
           (model) => model.associate && model.associate(this.connection.models)
         );
-      console.log('Configuring transaction loader...');
+      console.log('Loading transaction connection...');
       Transaction.setSequelize(this.connection);
     } catch (err) {
       console.error('Failed to load database: ', err);

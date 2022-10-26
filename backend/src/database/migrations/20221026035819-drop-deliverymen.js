@@ -2,7 +2,11 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('users', {
+    await queryInterface.dropTable('deliverymen');
+  },
+
+  down: async (queryInterface, Sequelize) => {
+    await queryInterface.createTable('deliverymen', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -13,14 +17,17 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      avatar_id: {
+        type: Sequelize.INTEGER,
+        references: { model: 'files', key: 'id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
+        allowNull: true,
+      },
       email: {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true,
-      },
-      password_hash: {
-        type: Sequelize.STRING,
-        allowNull: false,
       },
       created_at: {
         type: Sequelize.DATE,
@@ -31,9 +38,5 @@ module.exports = {
         allowNull: false,
       },
     });
-  },
-
-  down: async (queryInterface) => {
-    await queryInterface.dropTable('users');
   },
 };

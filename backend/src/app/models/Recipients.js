@@ -4,7 +4,6 @@ class Recipients extends Model {
   static init(sequelize) {
     super.init(
       {
-        // Campos para interagir com a tabela recipients
         destiny_name: Sequelize.STRING,
         address: Sequelize.STRING,
         number: Sequelize.INTEGER,

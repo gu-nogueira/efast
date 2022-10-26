@@ -34,13 +34,14 @@ class Deliveries extends Model {
     return this;
   }
 
-  // Foreign keys
+  // ** Foreign keys
+
   static associate(models) {
     this.belongsTo(models.Recipients, {
       foreignKey: 'recipient_id',
       as: 'recipient',
     });
-    this.belongsTo(models.Deliverymen, {
+    this.belongsTo(models.Users, {
       foreignKey: 'deliveryman_id',
       as: 'deliveryman',
     });
