@@ -60,6 +60,10 @@ export const Content = styled.div`
     font-weight: 700;
   }
 
+  small {
+    opacity: 0.7;
+  }
+
   p {
     margin: 10px 0;
   }
@@ -71,6 +75,7 @@ export const Content = styled.div`
 
   img {
     display: block;
+    position: relative;
     margin: -40px auto 0 auto;
     width: 180px;
     height: 300px;

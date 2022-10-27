@@ -16,15 +16,15 @@ import {
 } from './styles';
 
 const SignUp = ({ navigation }) => {
-  const dispatch = useDispatch();
-  const emailRef = useRef();
-  const passwordRef = useRef();
-
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const loading = useSelector((state) => state.auth.loading);
+
+  const dispatch = useDispatch();
+  const emailRef = useRef();
+  const passwordRef = useRef();
 
   function handleSubmit() {
     dispatch(signUpRequest(name, email, password));
@@ -37,7 +37,7 @@ const SignUp = ({ navigation }) => {
 
         <Form>
           <FormInput
-            icon="person-outline"
+            icon="person"
             autoCorrect={false}
             autoCapitalize="none"
             placeholder="Nome completo"
@@ -48,7 +48,7 @@ const SignUp = ({ navigation }) => {
           />
 
           <FormInput
-            icon="mail-outline"
+            icon="mail"
             keyboardType="email-address"
             autoCorrect={false}
             autoCapitalize="none"
@@ -61,7 +61,7 @@ const SignUp = ({ navigation }) => {
           />
 
           <FormInput
-            icon="lock-outline"
+            icon="lock"
             secureTextEntry
             placeholder="Sua senha secreta"
             ref={passwordRef}
@@ -72,7 +72,7 @@ const SignUp = ({ navigation }) => {
           />
 
           <SubmitButton loading={loading} onPress={handleSubmit}>
-            Criar conta
+            Solicitar acesso
           </SubmitButton>
         </Form>
 

@@ -3,53 +3,69 @@ import { takeLatest, call, put, all } from 'redux-saga/effects';
 
 import api from '~/services/api';
 
+import errorParser from '~/utils/errorParser';
+
 import { signInSuccess, signFailure } from './actions';
+
+/*
+ *  Login saga
+ */
 
 export function* signIn({ payload }) {
   try {
-    const { deliverymanId } = payload;
-    const response = yield call(api.get, `deliverymen/${deliverymanId}`);
+    const { email, password } = payload;
 
-    const { name, email, avatar } = response.data;
-    const deliveryman = {
-      id: deliverymanId,
-      name,
+    console.tron.log('email', email);
+    console.tron.log('password', password);
+
+    /*
+     *  Call promise
+     */
+
+    const response = yield call(api.post, 'sessions', {
       email,
-      avatar: avatar?.url,
-    };
+      password,
+    });
 
-    // ** Token insertion on Axios
-    // api.defaults.headers.Authorization = `Bearer ${token}`;
+    const { token, user } = response.data;
 
-    yield put(signInSuccess(deliveryman));
+    /*
+     *  Token insertion on Axios
+     */
+
+    api.defaults.headers.Authorization = `Bearer ${token}`;
+
+    yield put(signInSuccess(token, user));
   } catch (err) {
     Alert.alert(
       'Falha na autenticação',
-      'Houve um erro no login, verifique seus dados',
+      err.response?.data?.error
+        ? errorParser(err.response.data.error)
+        : 'Houve um erro no login, verifique seus dados',
     );
     yield put(signFailure());
   }
 }
 
-// export function* signUp({ payload }) {
-//   try {
-//     const { name, email, password } = payload;
+export function* signUp({ payload }) {
+  try {
+    const { name, email, password } = payload;
 
-//     yield call(api.post, 'users', {
-//       name,
-//       email,
-//       password,
-//     });
+    yield call(api.post, 'register', {
+      name,
+      email,
+      password,
+    });
 
-//     // history.push('/');
-//   } catch (err) {
-//     Alert.alert(
-//       'Falha no cadastro',
-//       'Houve um erro no cadastro, verifique seus dados',
-//     );
-//     yield put(signFailure());
-//   }
-// }
+    // history.push('/');
+  } catch (err) {
+    Alert.alert(
+      'Falha no cadastro',
+      'Houve um erro no cadastro, verifique seus dados',
+    );
+    yield put(signFailure());
+  }
+}
 
 // Token keep alive
 export function setToken({ payload }) {
@@ -67,5 +83,5 @@ export function setToken({ payload }) {
 export default all([
   takeLatest('persist/REHYDRATE', setToken),
   takeLatest('@auth/SIGN_IN_REQUEST', signIn),
-  // takeLatest('@auth/SIGN_UP_REQUEST', signUp),
+  takeLatest('@auth/SIGN_UP_REQUEST', signUp),
 ]);

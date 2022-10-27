@@ -4,7 +4,8 @@ import { parseISO, isBefore, getHours } from 'date-fns';
 
 import Deliveries from '../models/Deliveries';
 import Recipients from '../models/Recipients';
-import Deliverymen from '../models/Deliverymen';
+// import Deliverymen from '../models/Deliverymen';
+import Users from '../models/Users';
 import DeliveryProblems from '../models/DeliveryProblems';
 import Files from '../models/Files';
 
@@ -43,7 +44,7 @@ class DeliveriesController {
             ],
           },
           {
-            model: Deliverymen,
+            model: Users,
             as: 'deliveryman',
             attributes: ['id', 'name', 'email'],
             include: [
@@ -121,7 +122,7 @@ class DeliveriesController {
     const { product, recipient_id, deliveryman_id } = req.body;
 
     const recipient = await Recipients.findByPk(recipient_id);
-    const deliveryman = await Deliverymen.findByPk(deliveryman_id);
+    const deliveryman = await Users.findByPk(deliveryman_id);
 
     if (!recipient) {
       return res.status(400).json({ error: 'Recipient not found' });

@@ -16,15 +16,16 @@ import {
 } from './styles';
 
 const SignIn = ({ navigation }) => {
-  console.tron.log(process.env);
-  const [deliverymanId, setDeliverymanId] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const loading = useSelector((state) => state.auth.loading);
 
   const dispatch = useDispatch();
+  const passwordRef = useRef();
 
   function handleSubmit() {
-    dispatch(signInRequest(deliverymanId));
+    dispatch(signInRequest(email, password));
   }
 
   return (
@@ -34,14 +35,27 @@ const SignIn = ({ navigation }) => {
 
         <Form>
           <FormInput
-            icon="person"
-            keyboardType="numeric"
+            icon="mail"
+            keyboardType="email-address"
             autoCorrect={false}
             autoCapitalize="none"
-            placeholder="Informe seu ID de cadastro"
+            placeholder="E-mail"
+            returnKeyType="next"
+            onSubmitEditing={() => passwordRef.current.focus()}
+            value={email}
+            onChangeText={setEmail}
+          />
+          <FormInput
+            icon="lock"
+            secureTextEntry
+            autoCorrect={false}
+            autoCapitalize="none"
+            placeholder="Senha"
+            ref={passwordRef}
             returnKeyType="send"
-            value={deliverymanId}
-            onChangeText={setDeliverymanId}
+            onSubmitEditing={handleSubmit}
+            value={password}
+            onChangeText={setPassword}
           />
           <SubmitButton loading={loading} onPress={handleSubmit}>
             Entrar

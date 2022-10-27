@@ -23,6 +23,11 @@ const routes = new Router();
 const upload = multer(multerConfig);
 
 routes.post('/sessions', SessionsController.store);
+routes.post('/users', UsersController.store);
+
+// ** Authentication middleware
+
+routes.use(authMiddleware);
 
 routes.post('/files', upload.single('file'), FilesController.store);
 
@@ -42,19 +47,22 @@ routes.put(
   ProblemsController.update
 );
 
-routes.use(authMiddleware);
+// ** admin middleware
 
 routes.get('/users', UsersController.index);
+routes.get('/users/:id', UsersController.show);
+routes.put('/users/:id', UsersController.update);
+routes.delete('/users/:id', UsersController.delete);
 
 routes.get('/recipients', RecipientsController.index);
 routes.post('/recipients', RecipientsController.store);
 routes.put('/recipients/:id', RecipientsController.update);
 routes.delete('/recipients/:id', RecipientsController.delete);
 
-routes.get('/deliverymen', DeliverymenController.index);
-routes.post('/deliverymen', DeliverymenController.store);
-routes.put('/deliverymen/:id', DeliverymenController.update);
-routes.delete('/deliverymen/:id', DeliverymenController.delete);
+// routes.get('/deliverymen', DeliverymenController.index);
+// routes.post('/deliverymen', DeliverymenController.store);
+// routes.put('/deliverymen/:id', DeliverymenController.update);
+// routes.delete('/deliverymen/:id', DeliverymenController.delete);
 
 routes.get('/deliveries', DeliveriesController.index);
 routes.post('/deliveries', DeliveriesController.store);

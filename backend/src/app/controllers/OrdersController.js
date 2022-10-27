@@ -1,4 +1,5 @@
-import Deliverymen from '../models/Deliverymen';
+// import Deliverymen from '../models/Deliverymen';
+import Users from '../models/Users';
 import Deliveries from '../models/Deliveries';
 import Recipients from '../models/Recipients';
 import Files from '../models/Files';

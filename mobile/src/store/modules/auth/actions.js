@@ -1,14 +1,14 @@
-export function signInRequest(deliverymanId) {
+export function signInRequest(email, password) {
   return {
     type: '@auth/SIGN_IN_REQUEST',
-    payload: { deliverymanId },
+    payload: { email, password },
   };
 }
 
-export function signInSuccess(deliveryman) {
+export function signInSuccess(token, user) {
   return {
     type: '@auth/SIGN_IN_SUCCESS',
-    payload: { deliveryman },
+    payload: { token, user },
   };
 }
 

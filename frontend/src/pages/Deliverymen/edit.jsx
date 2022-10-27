@@ -24,11 +24,25 @@ const schema = Yup.object().shape({
     })
     .required('Nome obrigatório'),
   email: Yup.string().required('Email obrigatório'),
+  oldPassword: Yup.string(),
+  password: Yup.string()
+    .min(6, 'A senha deve ter no mínimo 6 caracteres')
+    .when('oldPassword', (oldPassword, field) =>
+      oldPassword ? field.required('Senha obrigatória') : field
+    ),
+  confirmPassword: Yup.string().when('password', (password, field) =>
+    password
+      ? field
+          .required('Confirme sua senha')
+          .oneOf([Yup.ref('password')], 'A senha não confere')
+      : field
+  ),
 });
 
 function DeliverymenEdit({ location }) {
   const [deliveryman] = useState(location?.state);
   const [loading, setLoading] = useState(false);
+  const [oldPassword, setOldPassword] = useState('');
 
   const formRef = useRef();
 
@@ -37,11 +51,21 @@ function DeliverymenEdit({ location }) {
       name: deliveryman.name,
       email: deliveryman.email,
       avatar: deliveryman.avatar && deliveryman.avatar.url,
+      oldPassword: null,
+      password: null,
+      confirmPassword: null,
     };
     formRef.current.setData(initialData);
   }
 
-  async function handleSubmit({ name, email, avatar }) {
+  async function handleSubmit({
+    name,
+    email,
+    oldPassword,
+    password,
+    confirmPassword,
+    avatar,
+  }) {
     try {
       /*
        *  Remove all previous errors
@@ -52,7 +76,10 @@ function DeliverymenEdit({ location }) {
        *  Yup validation
        */
 
-      await schema.validate({ name, email }, { abortEarly: false });
+      await schema.validate(
+        { name, email, oldPassword, password, confirmPassword },
+        { abortEarly: false }
+      );
 
       setLoading(true);
 
@@ -64,9 +91,12 @@ function DeliverymenEdit({ location }) {
         avatar = id;
       }
 
-      await api.put(`/deliverymen/${deliveryman.id}`, {
+      await api.put(`/users/${deliveryman.id}`, {
         name,
         email,
+        oldPassword: oldPassword || undefined,
+        password,
+        confirmPassword,
         avatar_id: avatar,
       });
 
@@ -119,6 +149,8 @@ function DeliverymenEdit({ location }) {
         <DeliverymenForms
           userName={deliveryman.name}
           setInitialData={handleSetInitialData}
+          oldPassword={oldPassword}
+          setOldPassword={setOldPassword}
         />
       </div>
     </Form>

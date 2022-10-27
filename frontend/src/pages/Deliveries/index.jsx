@@ -49,10 +49,12 @@ function ViewContent({ data }) {
         </p>
         <hr />
         <strong>Assinatura do destinatário</strong>
-        <img
-          src={data.signature?.url || SignatureExample}
-          alt="Assinatura do destinatário"
-        />
+        {data.signature && (
+          <div>
+            <small>Passe o mouse em cima da imagem</small>
+            <img src={data.signature?.url} alt="Assinatura do destinatário" />
+          </div>
+        )}
       </Content>
     );
 }

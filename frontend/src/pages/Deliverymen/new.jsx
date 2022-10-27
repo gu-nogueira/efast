@@ -24,6 +24,16 @@ const schema = Yup.object().shape({
     })
     .required('Nome obrigatório'),
   email: Yup.string().required('Email obrigatório'),
+  password: Yup.string()
+    .min(6, 'A senha deve ter no mínimo 6 caracteres')
+    .required('Senha obrigatória'),
+  confirmPassword: Yup.string().when('password', (password, field) =>
+    password
+      ? field
+          .required('Confirme sua senha')
+          .oneOf([Yup.ref('password')], 'A senha não confere')
+      : field
+  ),
 });
 
 function DeliverymenNew() {
@@ -31,7 +41,13 @@ function DeliverymenNew() {
 
   const formRef = useRef();
 
-  async function handleSubmit({ name, email, avatar }) {
+  async function handleSubmit({
+    name,
+    email,
+    password,
+    confirmPassword,
+    avatar,
+  }) {
     try {
       /*
        *  Remove all previous errors
@@ -42,7 +58,10 @@ function DeliverymenNew() {
        *  Yup validation
        */
 
-      await schema.validate({ name, email }, { abortEarly: false });
+      await schema.validate(
+        { name, email, password, confirmPassword },
+        { abortEarly: false }
+      );
 
       setLoading(true);
 
@@ -54,9 +73,11 @@ function DeliverymenNew() {
         avatar = id;
       }
 
-      await api.post('/deliverymen', {
+      await api.post('/users', {
         name,
         email,
+        password,
+        role: 'deliveryman',
         avatar_id: avatar,
       });
 

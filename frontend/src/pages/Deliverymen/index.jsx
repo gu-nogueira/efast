@@ -28,8 +28,9 @@ function Deliverymen() {
   };
 
   const options = ['edit', 'delete'];
-  const apiRoute = '/deliverymen';
+  const apiRoute = '/users';
   const params = {
+    roles: ['deliveryman'],
     page: currentPage,
     perPage: 20,
     q: search,

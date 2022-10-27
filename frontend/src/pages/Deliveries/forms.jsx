@@ -16,7 +16,10 @@ function DeliveriesForms({ setInitialData }) {
   async function fetchFormData() {
     try {
       setLoading(true);
-      const searches = [api.get('/recipients'), api.get('/deliverymen')];
+      const searches = [
+        api.get('/recipients'),
+        api.get('/users', { params: { roles: ['deliveryman'] } }),
+      ];
       const [recipientsResponse, deliverymenResponse] = await Promise.all(
         searches
       );

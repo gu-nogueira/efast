@@ -4,7 +4,9 @@ import { Op } from 'sequelize';
 import Users from '../models/Users';
 import Files from '../models/Files';
 
-import roles from '../../config/roles';
+import defaultRoles from '../../config/roles';
+
+import checkUserRole from '../../utils/checkUserRole';
 
 class UsersController {
   /*
@@ -12,19 +14,38 @@ class UsersController {
    */
 
   async index(req, res) {
+    // ** Request validation
+
+    // const schema = Yup.object().shape({
+    //   roles: Yup.array()
+    //     .of(
+    //       Yup.string()
+    //         .strict()
+    //         .oneOf(defaultRoles.map((r) => r.name))
+    //     )
+    //     .required(),
+    // });
+    // if (!(await schema.isValid(req.body))) {
+    //   return res
+    //     .status(400)
+    //     .json({ error: 'Validation fails, verify request body' });
+    // }
+
     const {
+      roles = ['deliveryman'],
       page = 1,
       perPage = 20,
       q: search,
       orderBy = 'id',
-      role = 'customer',
     } = req.query;
     const filter = { [Op.iLike]: `%${search}%` };
     const searches = [];
 
-    const checkRole = roles.find((r) => r.name == role);
-    if (!checkRole) {
-      return res.status(400).json({ error: 'Invalid role' });
+    const checkRoles = roles.every((r) => {
+      return defaultRoles.some((dr) => dr.name === r);
+    });
+    if (!checkRoles) {
+      return res.status(400).json({ error: 'Invalid roles' });
     }
 
     searches.push(
@@ -33,7 +54,9 @@ class UsersController {
         attributes: ['id', 'name', 'email', 'role'],
         where: {
           ...(search && { [Op.or]: [{ name: filter }, { email: filter }] }),
-          role,
+          role: {
+            [Op.in]: roles,
+          },
         },
         limit: perPage,
         offset: (page - 1) * perPage,
@@ -49,11 +72,12 @@ class UsersController {
 
     searches.push(
       Users.count({
-        where: search
-          ? {
-              [Op.or]: [{ name: filter }, { email: filter }],
-            }
-          : undefined,
+        where: {
+          ...(search && { [Op.or]: [{ name: filter }, { email: filter }] }),
+          role: {
+            [Op.in]: roles,
+          },
+        },
       })
     );
 
@@ -100,7 +124,8 @@ class UsersController {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
       email: Yup.string().email().required(),
-      password: Yup.string().required().min(6),
+      password: Yup.string().strict().required().min(6),
+      role: Yup.string().oneOf(defaultRoles.map((r) => r.name)),
     });
     if (!(await schema.isValid(req.body))) {
       return res
@@ -108,7 +133,7 @@ class UsersController {
         .json({ error: 'Validation fails, verify request body' });
     }
 
-    const { email, avatar_id: avatarId } = req.body;
+    const { email, avatar_id: avatarId, role } = req.body;
 
     // ** Check user existance
 
@@ -128,7 +153,16 @@ class UsersController {
       }
     }
 
-    const { id, name, role, avatar } = await Users.create(req.body, {
+    // ** Check if role is allowed
+
+    if (role && checkUserRole(role, 'admin')) {
+      const { role: userRole } = await Users.findByPk(req.userId);
+      if (!userRole || !checkUserRole(userRole, 'admin')) {
+        return res.status(400).json({ error: 'Invalid role' });
+      }
+    }
+
+    const { id, name, avatar } = await Users.create(req.body, {
       include: [
         {
           model: Files,
@@ -166,9 +200,7 @@ class UsersController {
       confirmPassword: Yup.string().when('password', (password, field) =>
         password ? field.required().oneOf([Yup.ref('password')]) : field
       ),
-      role: Yup.string().when('role', (role, field) =>
-        role ? field.required().oneOf(() => roles.map((r) => r.name)) : field
-      ),
+      role: Yup.string().oneOf(defaultRoles.map((r) => r.name)),
       avatar_id: Yup.number(),
     });
     if (!(await schema.isValid(req.body))) {
@@ -178,7 +210,9 @@ class UsersController {
     }
 
     const { email, oldPassword, avatar_id: avatarId } = req.body;
-    const user = await Users.findByPk(req.userId);
+    const { id: reqId } = req.params;
+    const id = reqId || req.userId;
+    const user = await Users.findByPk(id);
 
     // ** Check user existance if email is being changed
 
@@ -204,9 +238,15 @@ class UsersController {
       }
     }
 
+    // ** Check if user id matches with logged user id
+
+    if (id != req.userId && checkUserRole(user.role, 'admin')) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
     await user.update(req.body);
 
-    const { id, name, role, avatar } = await Users.findByPk(req.userId, {
+    const { name, role, avatar } = await Users.findByPk(id, {
       include: [
         {
           model: Files,
@@ -217,7 +257,7 @@ class UsersController {
     });
 
     return res.json({
-      id,
+      id: reqId,
       name,
       email,
       role,

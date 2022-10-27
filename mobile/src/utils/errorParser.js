@@ -2,6 +2,10 @@
 
 export default function errorParser(message) {
   const error = {
+    // ** Validation errors
+    'Validation fails, verify request body fields':
+      'Falha na validação, verifique se os campos estão preenchidos corretamente',
+
     // ** Order withdraw and delivery errors
 
     'Order not found': 'Encomenda não encontrada',
