@@ -18,6 +18,7 @@ import ProblemsController from './app/controllers/ProblemsController';
 // ** Middlewares
 import authMiddleware from './app/middlewares/auth';
 import fileMiddleware from './app/middlewares/file';
+import adminMiddleware from './app/middlewares/admin';
 
 const routes = new Router();
 const upload = multer(multerConfig);
@@ -48,6 +49,8 @@ routes.put(
 );
 
 // ** admin middleware
+
+routes.use(adminMiddleware);
 
 routes.get('/users', UsersController.index);
 routes.get('/users/:id', UsersController.show);

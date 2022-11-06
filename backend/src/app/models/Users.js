@@ -11,7 +11,7 @@ class Users extends Model {
         password_hash: Sequelize.STRING,
         role: {
           type: Sequelize.ENUM,
-          values: ['admin', 'deliveryman', 'recipient'],
+          values: ['admin', 'deliveryman', 'customer'],
         },
       },
       {

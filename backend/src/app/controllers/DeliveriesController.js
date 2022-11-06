@@ -13,6 +13,7 @@ import Transaction from '../../database/transaction';
 
 import Cache from '../../lib/Cache';
 import Queue from '../../lib/Queue';
+
 import OrderMail from '../jobs/OrderMail';
 
 class DeliveriesController {
@@ -212,7 +213,7 @@ class DeliveriesController {
      */
 
     if (deliveryman_id && deliveryman_id != delivery.deliveryman_id) {
-      const deliverymanExists = await Deliverymen.findByPk(deliveryman_id);
+      const deliverymanExists = await Users.findByPk(deliveryman_id);
       if (!deliverymanExists) {
         return res.status(400).json({ error: 'Deliveryman does not exists' });
       }

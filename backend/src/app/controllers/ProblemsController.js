@@ -1,7 +1,8 @@
 import DeliveryProblems from '../models/DeliveryProblems';
 import Deliveries from '../models/Deliveries';
 import Recipients from '../models/Recipients';
-import Deliverymen from '../models/Deliverymen';
+import Users from '../models/Users';
+// import Deliverymen from '../models/Deliverymen';
 import Files from '../models/Files';
 
 import Queue from '../../lib/Queue';
@@ -193,7 +194,7 @@ class ProblemsController {
      * Check if deliveryman exists
      */
 
-    const deliveryman = await Deliverymen.findByPk(id);
+    const deliveryman = await Users.findByPk(id);
     if (!deliveryman) {
       return res.status(404).json({ error: 'Deliveryman not found' });
     }

@@ -13,7 +13,7 @@ export default async (req, res, next) => {
 
   try {
     const decoded = await promisify(jwt.verify)(token, authConfig.secret);
-    req.UserId = decoded.id;
+    req.userId = decoded.id;
 
     // Fim do middleware
     return next();

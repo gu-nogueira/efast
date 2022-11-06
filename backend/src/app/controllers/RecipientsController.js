@@ -57,7 +57,7 @@ class RecipientsController {
       complement: Yup.string(),
       state: Yup.string().required().uppercase().min(2).max(2),
       city: Yup.string().required(),
-      cep: Yup.string().required().min(8).max(8),
+      cep: Yup.string().required().min(8).max(9),
     });
     if (!(await schema.isValid(req.body))) {
       return res
@@ -101,7 +101,7 @@ class RecipientsController {
       complement: Yup.string(),
       state: Yup.string().uppercase().min(2).max(2),
       city: Yup.string(),
-      cep: Yup.string().min(8).max(8),
+      cep: Yup.string().min(8).max(9),
     });
     if (!(await schema.isValid(req.body))) {
       return res

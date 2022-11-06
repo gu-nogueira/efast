@@ -17,7 +17,8 @@ import {
 
 class OrderController {
   async index(req, res) {
-    const deliveryman = await Deliverymen.findByPk(req.params.id);
+    const { id } = req.params;
+    const deliveryman = await Users.findByPk(id);
     if (!deliveryman) {
       return res.status(400).json({ error: 'Deliveryman not found' });
     }
@@ -66,7 +67,7 @@ class OrderController {
      * Check deliveryman id
      */
 
-    const deliveryman = await Deliverymen.findByPk(id);
+    const deliveryman = await Users.findByPk(id);
     if (!deliveryman) {
       return res.status(400).json({ error: 'Deliveryman not found' });
     }
@@ -176,7 +177,7 @@ class OrderController {
      * Check deliveryman id
      */
 
-    const deliveryman = await Deliverymen.findByPk(id);
+    const deliveryman = await Users.findByPk(id);
     if (!deliveryman) {
       return res.status(400).json({ error: 'Deliveryman not found' });
     }

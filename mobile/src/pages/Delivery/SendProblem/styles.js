@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import colors from '~/styles/colors';
 // import { RectButton } from 'react-native-gesture-handler';
 
 export const Container = styled.SafeAreaView`
@@ -26,6 +27,7 @@ export const Input = styled.TextInput.attrs({
   placeholderTextColor: '#999999',
 })`
   background: #fff;
+  color: ${colors.black1};
   border-radius: 4px;
   padding: 20px;
   height: 300px;
