@@ -76,6 +76,7 @@ export const Heading = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 15px;
 `;
 
 export const Title = styled.Text`
@@ -111,18 +112,10 @@ export const TextFilter = styled.Text`
     `}
 `;
 
-export const Card = styled.View.attrs({
-  style: {
-    shadowColor: '#171717',
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.4,
-    shadowRadius: 2,
-  },
-})`
+export const Card = styled.View`
   border: 1px solid ${colors.border};
   border-radius: 4px;
-  margin-top: 9px;
-  margin-bottom: 28px;
+  margin-bottom: 20px;
 `;
 
 export const CardHeader = styled.View`
@@ -225,16 +218,14 @@ export const DetailText = styled.Text`
   font-weight: bold;
 `;
 
-export const NotRegister = styled.View`
+export const NotRegister = styled.ScrollView`
   width: 100%;
-  /* height: 51px; */
-  align-content: center;
-  justify-content: center;
-  border-radius: 4px;
-  padding: 20px;
-  background: #cce5ff;
 `;
 
 export const TextNotRegister = styled.Text`
-  color: #004085;
+  text-align: center;
+  color: ${colors.blue1};
+  background: ${colors.blue2 + '33'};
+  padding: 30px 20px;
+  border-radius: 4px;
 `;

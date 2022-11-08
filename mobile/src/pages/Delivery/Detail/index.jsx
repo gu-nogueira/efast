@@ -109,3 +109,4 @@ export default function Detail({ navigation, route }) {
 Detail.propTypes = {
   navigation: PropTypes.shape().isRequired,
 };
+

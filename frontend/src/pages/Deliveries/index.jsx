@@ -51,7 +51,7 @@ function ViewContent({ data }) {
         <strong>Assinatura do destinatário</strong>
         {data.signature && (
           <div>
-            <small>Passe o mouse em cima da imagem</small>
+            <small>Passe o mouse em cima da imagem para visualizá-la</small>
             <img src={data.signature?.url} alt="Assinatura do destinatário" />
           </div>
         )}

@@ -1,53 +1,52 @@
 import styled from 'styled-components/native';
 import { Dimensions } from 'react-native';
 
+import colors from '~/styles/colors';
+
 export const Container = styled.View`
   height: 85px;
   width: 335px;
-  background: #f8f9fd;
+  background: #fff;
   border-radius: 4px;
-  box-shadow: 0 0 3px #0000001a;
-  elevation: 3;
   margin-top: 10px;
   flex-direction: row;
-  justify-content: space-around;
-  border-radius: 4px;
-  margin-bottom: 9px;
+
+  shadow-color: ${colors.purple + '66'};
+  shadow-offset: {width: 0, height: 2};
+  shadow-opacity: 0.15;
+  shadow-radius: 3;
+  elevation: 10;
 `;
 
 export const Label = styled.Text`
+  margin-top: 5px;
   font-size: 11px;
-  color: #999;
-  line-height: 16px;
+  line-height: 14px;
   text-align: center;
   width: 56px;
 `;
 
 export const Left = styled.TouchableOpacity`
-  height: 100%;
-  width: ${(Dimensions.get('window').width - 20) / 3}px;
+  flex: 1;
   align-items: center;
   justify-content: center;
-
-  border-right-color: #0000001a;
+  border-right-color: ${colors.border};
   border-style: solid;
   border-right-width: 1px;
 `;
 
 export const Center = styled.TouchableOpacity`
-  height: 100%;
-  width: ${(Dimensions.get('window').width - 20) / 3}px;
+  flex: 1;
   align-items: center;
   justify-content: center;
 `;
 
 export const Right = styled.TouchableOpacity`
-  height: 100%;
-  width: ${(Dimensions.get('window').width - 20) / 3}px;
+  flex: 1;
   align-items: center;
   justify-content: center;
 
-  border-left-color: #0000001a;
+  border-left-color: ${colors.border};
   border-style: solid;
   border-left-width: 1px;
 `;

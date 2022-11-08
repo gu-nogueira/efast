@@ -4,7 +4,7 @@ import colors from '~/styles/colors';
 
 export const Container = styled.SafeAreaView`
   flex: 1;
-  /* background: ${colors.background}; */
+  background: ${colors.background};
 `;
 
 export const Background = styled.View`
@@ -22,7 +22,14 @@ export const Card = styled.View`
   padding: 15px;
   width: 335px;
   border-radius: 4px;
-  margin-bottom: 9px;
+
+  shadow-color: ${colors.purple + '66'};
+  shadow-offset: {width: 0, height: 2};
+  shadow-opacity: 0.15;
+  shadow-radius: 3;
+  elevation: 10;
+
+  margin-bottom: 15px;
 `;
 
 export const CardHeader = styled.View`
@@ -50,7 +57,7 @@ export const Label = styled.Text`
 `;
 
 export const Text = styled(Label)`
-  color: #666666;
+  color: ${colors.grey1 + 'cc'};
   margin-top: 5px;
   text-transform: none;
   font-weight: normal;
