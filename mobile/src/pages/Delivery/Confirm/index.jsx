@@ -8,8 +8,7 @@ import {
   Camera as RNVisionCamera,
 } from 'react-native-vision-camera';
 
-import Icon from 'react-native-vector-icons/MaterialIcons';
-// import Spinner from 'react-native-loading-spinner-overlay';
+import Loader from '~/components/Loader';
 
 import api from '~/services/api';
 
@@ -17,6 +16,7 @@ import errorParser from '~/utils/errorParser';
 
 // import Camera from './Camera';
 
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import defaultSignatureimage from '~/assets/signature.png';
 
 import {
@@ -124,14 +124,9 @@ const Confirm = ({ navigation, route }) => {
     <Container>
       <Background />
       <Content>
-        {/* <Spinner
-          visible={loading}
-          animation="fade"
-          overlayColor="rgba(0,0,0,0.8)"
-          textContent="Concluindo entrega"
-          textStyle={{ color: '#fff' }}
-        /> */}
-        {showCamera && !!device ? (
+        {loading ? (
+          <Loader />
+        ) : showCamera && !!device ? (
           <CaptureImage>
             {/* <Camera device={device} ref={cameraRef} /> */}
             <RNVisionCamera
@@ -182,4 +177,3 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-

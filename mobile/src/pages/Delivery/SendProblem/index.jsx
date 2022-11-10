@@ -3,7 +3,8 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { TouchableOpacity, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-// import Spinner from 'react-native-loading-spinner-overlay';
+
+import Loader from '~/components/Loader';
 
 import api from '~/services/api';
 
@@ -51,19 +52,16 @@ export default function SendProblem({ navigation, route }) {
     <Container>
       <Background />
       <Content>
-        {/* <Spinner
-          visible={loading}
-          animation="fade"
-          overlayColor="rgba(0,0,0,0.8)"
-          textContent="Enviando problema"
-          textStyle={{ color: '#fff' }}
-        /> */}
-        <Form>
-          <Input value={description} onChangeText={setDescription} />
-          <Button onPress={handleSubmit}>
-            <Text>Enviar</Text>
-          </Button>
-        </Form>
+        {loading ? (
+          <Loader />
+        ) : (
+          <Form>
+            <Input value={description} onChangeText={setDescription} />
+            <Button onPress={handleSubmit}>
+              <Text>Enviar</Text>
+            </Button>
+          </Form>
+        )}
       </Content>
     </Container>
   );

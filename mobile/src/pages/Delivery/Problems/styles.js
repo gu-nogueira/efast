@@ -1,7 +1,9 @@
 import styled from 'styled-components/native';
+import colors from '~/styles/colors';
 
 export const Container = styled.SafeAreaView`
   flex: 1;
+  background: ${colors.background};
 `;
 
 export const Background = styled.View`
@@ -25,17 +27,24 @@ export const Problem = styled.View`
   width: 335px;
   border-radius: 4px;
   background: #fff;
-  height: 55px;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 19px 11px 19px 19px;
+  padding: 15px 11px 15px 15px;
   margin-bottom: 15px;
+
+  shadow-color: ${colors.purple + '66'};
+  shadow-offset: {width: 0, height: 2};
+  shadow-opacity: 0.2;
+  shadow-radius: 3;
+  elevation: 10;
 `;
 
 export const Description = styled.Text`
   color: #999999;
   font-size: 16px;
+
+  max-width: 250px;
 `;
 
 export const Date = styled.Text`

@@ -3,12 +3,15 @@ import { StyleSheet } from 'react-native';
 import styled, { css } from 'styled-components/native';
 import { Camera as RNVisionCamera } from 'react-native-vision-camera';
 
+import colors from '~/styles/colors';
+
 export const Container = styled.SafeAreaView`
   flex: 1;
+  background: ${colors.background};
 `;
 
 export const Background = styled.View`
-  background: #7d40e7;
+  background: ${colors.purple};
   height: 140px;
 `;
 
@@ -93,7 +96,7 @@ export const ButtonCamera = styled.TouchableOpacity`
 export const Button = styled.TouchableOpacity`
   width: 335px;
   height: 45px;
-  background: #7d40e7;
+  background: ${colors.purple};
   ${(props) =>
     props.disabled &&
     css`

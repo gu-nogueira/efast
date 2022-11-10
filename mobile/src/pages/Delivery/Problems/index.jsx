@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { TouchableOpacity, Alert } from 'react-native';
 import { format, parseISO } from 'date-fns';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-// import Spinner from 'react-native-loading-spinner-overlay';
+
+import Loader from '~/components/Loader';
 
 import api from '~/services/api';
 
@@ -55,26 +56,25 @@ export default function Problems({ navigation, route }) {
       <Background />
       <Content>
         <Title>Encomenda #{String(deliveryId).padStart(2, '0')}</Title>
-        {/* <Spinner
-          visible={loading}
-          animation="fade"
-          overlayColor="rgba(0,0,0,0.8)"
-          textContent="Carregando problemas"
-          textStyle={{ color: '#fff' }}
-        /> */}
-        {problems.length < 1 && !loading && (
-          <NotRegister>
-            <TextNotRegister>
-              Não existem problemas para serem exebidos
-            </TextNotRegister>
-          </NotRegister>
+        {loading ? (
+          <Loader />
+        ) : (
+          <>
+            {problems.length < 1 && !loading && (
+              <NotRegister>
+                <TextNotRegister>
+                  Não existem problemas para serem exebidos
+                </TextNotRegister>
+              </NotRegister>
+            )}
+            {problems.map((item) => (
+              <Problem key={item.id}>
+                <Description>{item.description}</Description>
+                <Date>{format(parseISO(item.updated_at), 'dd/MM/yyyy')}</Date>
+              </Problem>
+            ))}
+          </>
         )}
-        {problems.map((item) => (
-          <Problem key={item.id}>
-            <Description>{item.description}</Description>
-            <Date>{format(parseISO(item.updated_at), 'dd/MM/yyyy')}</Date>
-          </Problem>
-        ))}
       </Content>
     </Container>
   );

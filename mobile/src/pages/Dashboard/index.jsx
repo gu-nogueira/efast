@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { parseISO, format } from 'date-fns';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-// import Spinner from 'react-native-loading-spinner-overlay';
 
 import Background from '~/components/Background';
 import Loader from '~/components/Loader';

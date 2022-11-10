@@ -1,13 +1,13 @@
 import styled from 'styled-components/native';
 import colors from '~/styles/colors';
-// import { RectButton } from 'react-native-gesture-handler';
 
 export const Container = styled.SafeAreaView`
   flex: 1;
+  background: ${colors.background};
 `;
 
 export const Background = styled.View`
-  background: #7d40e7;
+  background: ${colors.purple};
   height: 140px;
 `;
 
@@ -32,10 +32,16 @@ export const Input = styled.TextInput.attrs({
   padding: 20px;
   height: 300px;
   font-size: 16px;
+
+  shadow-color: ${colors.purple + '66'};
+  shadow-offset: {width: 0, height: 2};
+  shadow-opacity: 0.3;
+  shadow-radius: 3;
+  elevation: 10;
 `;
 
 export const Button = styled.TouchableOpacity`
-  background: #7d40e7;
+  background: ${colors.purple};
   height: 45px;
   border-radius: 4px;
   margin-top: 20px;
