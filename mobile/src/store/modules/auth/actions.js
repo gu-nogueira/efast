@@ -19,6 +19,13 @@ export function signUpRequest(name, email, password) {
   };
 }
 
+export function signUpSuccess(name, email, password) {
+  return {
+    type: '@auth/SIGN_UP_SUCCESS',
+    // payload: { name, email, password },
+  };
+}
+
 export function signFailure() {
   return {
     type: '@auth/SIGN_FAILURE',

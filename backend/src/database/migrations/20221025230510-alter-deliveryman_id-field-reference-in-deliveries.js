@@ -11,7 +11,7 @@ module.exports = {
           'deliveries',
           'deliveryman_id',
           {
-            type: Sequelize.INTEGER,
+            type: Sequelize.UUID,
             references: { model: 'users', key: 'id' },
             onUpdate: 'CASCADE',
             onDelete: 'SET NULL',

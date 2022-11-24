@@ -4,7 +4,7 @@ import { persistReducer } from 'redux-persist';
 export default (reducers) => {
   const persistedReducer = persistReducer(
     {
-      key: 'gobarber',
+      key: 'efast',
       storage: AsyncStorage,
       whitelist: ['auth', 'user'],
     },
@@ -13,3 +13,4 @@ export default (reducers) => {
 
   return persistedReducer;
 };
+

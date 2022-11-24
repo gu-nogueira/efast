@@ -5,13 +5,19 @@ class Users extends Model {
   static init(sequelize) {
     super.init(
       {
+        id: {
+          type: Sequelize.UUID,
+          defaultValue: Sequelize.UUIDV4,
+          primaryKey: true,
+        },
         name: Sequelize.STRING,
         email: Sequelize.STRING,
         password: Sequelize.VIRTUAL,
         password_hash: Sequelize.STRING,
         role: {
           type: Sequelize.ENUM,
-          values: ['admin', 'deliveryman', 'customer'],
+          values: ['admin', 'deliveryman', 'customer', 'requester'],
+          defaultValue: 'requester',
         },
       },
       {
@@ -19,7 +25,7 @@ class Users extends Model {
       }
     );
 
-    // Only generates the hash if the password has been changed
+    // ** Only generates the hash if the password has been changed
 
     this.addHook('beforeSave', async (user) => {
       if (user.password) {

@@ -2,10 +2,11 @@ import { Alert } from 'react-native';
 import { takeLatest, call, put, all } from 'redux-saga/effects';
 
 import api from '~/services/api';
+import { navigate } from '~/services/navigation';
 
 import errorParser from '~/utils/errorParser';
 
-import { signInSuccess, signFailure } from './actions';
+import { signInSuccess, signUpSuccess, signFailure } from './actions';
 
 /*
  *  Login saga
@@ -14,9 +15,6 @@ import { signInSuccess, signFailure } from './actions';
 export function* signIn({ payload }) {
   try {
     const { email, password } = payload;
-
-    console.tron.log('email', email);
-    console.tron.log('password', password);
 
     /*
      *  Call promise
@@ -56,13 +54,18 @@ export function* signUp({ payload }) {
       email,
       password,
     });
-
-    // history.push('/');
+    yield put(signUpSuccess(name, email, password));
+    Alert.alert(
+      'Solicitação enviada',
+      'Obrigado! Entraremos em contato via e-mail para liberação do seu acesso! :)',
+    );
+    navigate('SignIn');
   } catch (err) {
     Alert.alert(
       'Falha no cadastro',
       'Houve um erro no cadastro, verifique seus dados',
     );
+    console.tron.log(err);
     yield put(signFailure());
   }
 }

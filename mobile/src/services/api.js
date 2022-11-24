@@ -1,8 +1,17 @@
 import { BASE_URL } from '@env';
 import axios from 'axios';
 
-const api = axios.create({
-  baseURL: BASE_URL,
-});
+class ApiConnector {
+  constructor() {
+    this.api;
+    this.init();
+  }
 
-export default api;
+  init() {
+    this.api = axios.create({
+      baseURL: BASE_URL,
+    });
+  }
+}
+
+export default new ApiConnector().api;

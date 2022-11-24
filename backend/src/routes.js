@@ -24,7 +24,7 @@ const routes = new Router();
 const upload = multer(multerConfig);
 
 routes.post('/sessions', SessionsController.store);
-routes.post('/users', UsersController.store);
+routes.post('/register', UsersController.register);
 
 // ** Authentication middleware
 
@@ -32,7 +32,7 @@ routes.use(authMiddleware);
 
 routes.post('/files', upload.single('file'), FilesController.store);
 
-routes.get('/deliverymen/:id', DeliverymenController.show);
+// routes.get('/deliverymen/:id', DeliverymenController.show);
 routes.get('/deliverymen/:id/deliveries', OrdersController.index);
 routes.post('/deliverymen/:id/deliveries/:deliveryId', OrdersController.store);
 routes.put(
@@ -52,6 +52,7 @@ routes.put(
 
 routes.use(adminMiddleware);
 
+routes.post('/users', UsersController.store);
 routes.get('/users', UsersController.index);
 routes.get('/users/:id', UsersController.show);
 routes.put('/users/:id', UsersController.update);

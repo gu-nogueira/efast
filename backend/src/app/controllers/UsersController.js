@@ -114,6 +114,40 @@ class UsersController {
     return res.json(user);
   }
 
+  async register(req, res) {
+    // ** Request validation
+
+    const schema = Yup.object().shape({
+      name: Yup.string().required(),
+      email: Yup.string().email().required(),
+      password: Yup.string().strict().required().min(6),
+    });
+    if (!(await schema.isValid(req.body))) {
+      return res
+        .status(400)
+        .json({ error: 'Validation fails, verify request body' });
+    }
+
+    const { email } = req.body;
+
+    // ** Check user existance
+
+    const userExists = await Users.findOne({
+      where: { email: req.body.email },
+    });
+    if (userExists) {
+      return res.status(400).json({ error: 'User already exists' });
+    }
+
+    const { id, name } = await Users.create(req.body);
+
+    return res.json({
+      id,
+      name,
+      email,
+    });
+  }
+
   /*
    *  User creation method
    */
@@ -153,13 +187,10 @@ class UsersController {
       }
     }
 
-    // ** Check if role is allowed
+    // ** If has role in request, check if authenticated user has permission to create it
 
-    if (role && checkUserRole(role, 'admin')) {
-      const { role: userRole } = await Users.findByPk(req.userId);
-      if (!userRole || !checkUserRole(userRole, 'admin')) {
-        return res.status(400).json({ error: 'Invalid role' });
-      }
+    if (role && !checkUserRole(role)) {
+      return res.status(400).json({ error: 'Role does not exists' });
     }
 
     const { id, name, avatar } = await Users.create(req.body, {

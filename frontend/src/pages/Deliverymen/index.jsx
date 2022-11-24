@@ -44,7 +44,7 @@ function Deliverymen() {
       setDeliverymen(
         rows.map((deliveryman) => {
           deliveryman.raw = { ...deliveryman };
-          deliveryman.id = `#${deliveryman.id.toString().padStart(2, 0)}`;
+          deliveryman.id = deliveryman.id.split('-')[0];
           deliveryman.avatar = (
             <Avatar
               name={deliveryman.name}

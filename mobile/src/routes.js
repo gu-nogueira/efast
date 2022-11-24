@@ -5,6 +5,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
+import { navigationRef } from '~/services/navigation';
+
 // ** Routes
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
@@ -103,7 +105,7 @@ const DeliveryRoutes = () => {
 
 const Routes = ({ signed = false }) => {
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
       {signed ? (
         <>
           <Tab.Navigator

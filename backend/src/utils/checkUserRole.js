@@ -5,8 +5,10 @@ export default function checkUserRole(userRole, requiredRole) {
   if (!findUserRole) {
     return false;
   }
-  if (userRole.toLowerCase() !== requiredRole.toLowerCase()) {
+
+  if (requiredRole && userRole.toLowerCase() !== requiredRole.toLowerCase()) {
     return false;
   }
+
   return true;
 }

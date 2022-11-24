@@ -21,9 +21,9 @@ module.exports = {
           'role',
           {
             type: Sequelize.ENUM,
-            values: ['admin', 'deliveryman', 'customer'],
+            values: ['admin', 'deliveryman', 'customer', 'requester'],
             allowNull: false,
-            defaultValue: 'customer',
+            defaultValue: 'requester',
           },
           { transaction: t }
         ),

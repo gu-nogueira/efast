@@ -112,7 +112,7 @@ class DeliveriesController {
     const schema = Yup.object().shape({
       product: Yup.string().required(),
       recipient_id: Yup.number().required(),
-      deliveryman_id: Yup.number().required(),
+      deliveryman_id: Yup.string().required(),
     });
     if (!(await schema.isValid(req.body))) {
       return res

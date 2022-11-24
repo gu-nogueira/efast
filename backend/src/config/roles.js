@@ -8,4 +8,7 @@ export default [
   {
     name: 'customer',
   },
+  {
+    name: 'requester',
+  },
 ];
