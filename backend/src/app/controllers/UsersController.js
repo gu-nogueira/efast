@@ -32,7 +32,7 @@ class UsersController {
     // }
 
     const {
-      roles = ['deliveryman'],
+      roles = defaultRoles.map((r) => r.name),
       page = 1,
       perPage = 20,
       q: search,
@@ -128,7 +128,7 @@ class UsersController {
         .json({ error: 'Validation fails, verify request body' });
     }
 
-    const { email } = req.body;
+    const { name, email, password } = req.body;
 
     // ** Check user existance
 
@@ -139,7 +139,7 @@ class UsersController {
       return res.status(400).json({ error: 'User already exists' });
     }
 
-    const { id, name } = await Users.create(req.body);
+    const { id } = await Users.create({ name, email, password });
 
     return res.json({
       id,

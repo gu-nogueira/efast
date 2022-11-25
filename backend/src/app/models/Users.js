@@ -19,6 +19,12 @@ class Users extends Model {
           values: ['admin', 'deliveryman', 'customer', 'requester'],
           defaultValue: 'requester',
         },
+        active: {
+          type: Sequelize.VIRTUAL,
+          get() {
+            return this.role !== 'requester';
+          },
+        },
       },
       {
         sequelize,

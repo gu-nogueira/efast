@@ -69,6 +69,7 @@ export default function errorParser(message) {
       'Senha do usuário deve ter pelo menos 6 caracteres',
     'User password does not match': 'Senha do usuário não confere',
     'User password is incorrect': 'Senha do usuário está incorreta',
+    'User is not active': 'Usuário não está ativo',
   };
   return error[message] || message;
 }
