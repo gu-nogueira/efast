@@ -51,7 +51,7 @@ class UsersController {
     searches.push(
       Users.findAll({
         order: [orderBy],
-        attributes: ['id', 'name', 'email', 'role'],
+        attributes: ['id', 'name', 'email', 'role', 'created_at'],
         where: {
           ...(search && { [Op.or]: [{ name: filter }, { email: filter }] }),
           role: {

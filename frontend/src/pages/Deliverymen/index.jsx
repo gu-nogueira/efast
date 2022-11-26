@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { format, parseISO } from 'date-fns';
 import { toast } from 'react-toastify';
 
 import roles from '../../config/roles';
@@ -14,7 +15,8 @@ import Pagination from '../../components/Pagination';
 import MultiSelect from '../../components/MultiSelect';
 
 import { MdOutlineAdd } from 'react-icons/md';
-import { Row, Wrapper } from './styles';
+import { AiOutlineCheck } from 'react-icons/ai';
+import { Row, Wrapper, Content, Spinner } from './styles';
 
 function Deliverymen() {
   const [loading, setLoading] = useState(false);
@@ -25,6 +27,8 @@ function Deliverymen() {
   const [selectedRoles, setSelectedRoles] = useState([
     { value: 'deliveryman', label: 'Entregador' },
   ]);
+
+  const approveToastRef = useRef(null);
 
   // ** Allowed roles for this view
 
@@ -47,13 +51,14 @@ function Deliverymen() {
     email: 'Email',
     role: 'Função',
   };
-  const options = ['edit', 'delete'];
+  const options = ['view', 'edit', 'delete'];
   const apiRoute = '/users';
   const params = {
     roles: allowedSelectedRoles.map((role) => role.value),
     page: currentPage,
     perPage: 20,
     q: search,
+    orderBy: 'role',
   };
 
   async function fetchDeliverymen() {
@@ -94,6 +99,83 @@ function Deliverymen() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, search, selectedRoles]);
 
+  function ApproveRequesterView({ data }) {
+    function formatDate(date) {
+      if (!date) {
+        return <span className="pending">Sem data disponivel</span>;
+      }
+      const isoDate = format(parseISO(date), "dd/MM/yyyy, 'às' HH'h'mm");
+      return isoDate;
+    }
+
+    if (data)
+      return (
+        <Content>
+          <p>
+            {data.name} solicitou aprovação de cadastro como entregador pelo
+            aplicativo.
+          </p>
+          <hr />
+          <strong>Dados</strong>
+          <p>
+            <b>Nome completo:</b> {data.name}
+          </p>
+          <p>
+            <b>Email:</b> {data.email}
+          </p>
+          <p>
+            <b>Solicitado em:</b> {formatDate(data.created_at)}
+          </p>
+          <hr />
+        </Content>
+      );
+  }
+
+  function ApproveRequestButton() {
+    return (
+      <>
+        <AiOutlineCheck />
+        <span>Aprovar solicitação</span>
+      </>
+    );
+  }
+
+  async function handleApproveRequest(selectedDeliveryman) {
+    function toastPromise() {
+      approveToastRef.current = toast(
+        <Wrapper flex>
+          <Spinner />
+          <span>Atualizando entregador...</span>
+        </Wrapper>,
+        {
+          autoClose: false,
+        }
+      );
+    }
+    toastPromise();
+    try {
+      await api.put(`/users/${selectedDeliveryman.id}/approve`);
+      toast.update(approveToastRef.current, {
+        render: (
+          <Wrapper flex>
+            <AiOutlineCheck />
+            <span>Solicitação aprovada com sucesso!</span>
+          </Wrapper>
+        ),
+        type: toast.TYPE.SUCCESS,
+        autoClose: 3000,
+      });
+      fetchDeliverymen();
+    } catch (err) {
+      console.error(err);
+      toast.update(approveToastRef.current, {
+        render: 'Não foi possível aprovar a solicitação',
+        type: toast.TYPE.ERROR,
+        autoClose: 3000,
+      });
+    }
+  }
+
   return (
     <>
       <h2>Gerenciando entregadores</h2>
@@ -131,6 +213,10 @@ function Deliverymen() {
             options={options}
             apiRoute={apiRoute}
             fetchData={fetchDeliverymen}
+            viewContent={ApproveRequesterView}
+            viewContentTitle="Nova solicitação de cadastro"
+            viewContentResolver={handleApproveRequest}
+            viewContentCta={ApproveRequestButton}
           />
           <Pagination
             currentPage={currentPage}

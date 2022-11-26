@@ -21,24 +21,20 @@ function Option(props) {
 function MultiSelect({ multi, ...rest }) {
   const multiSelectRef = useRef(null);
   return (
-    <>
-      <ReactSelect
-        isMulti={multi}
-        closeMenuOnSelect={!multi}
-        hideSelectedOptions={!multi}
-        // components={{
-        //   Option,
-        // }}
-        allowSelectAll={multi}
-        ref={multiSelectRef}
-        styles={styles}
-        // hasError={error ? true : false}
-        className="react-select-container"
-        classNamePrefix="react-select"
-        {...rest}
-      />
-      {/* {error && <span className="error">{error}</span>} */}
-    </>
+    <ReactSelect
+      isMulti={multi}
+      closeMenuOnSelect={!multi}
+      hideSelectedOptions={!multi}
+      // components={{
+      //   Option,
+      // }}
+      allowSelectAll={multi}
+      ref={multiSelectRef}
+      styles={styles}
+      className="react-select-container"
+      classNamePrefix="react-select"
+      {...rest}
+    />
   );
 }
 

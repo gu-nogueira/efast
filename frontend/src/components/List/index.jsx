@@ -19,6 +19,9 @@ function List({
   apiRoute,
   fetchData,
   viewContent: ViewContent,
+  viewContentTitle,
+  viewContentResolver,
+  viewContentCta,
 }) {
   const [active, setActive] = useState();
   const dropDownRef = useRef(new Array(data.length));
@@ -113,16 +116,23 @@ function List({
                       {options.map((option, index) => {
                         switch (option) {
                           case 'view':
-                            return (
+                            return registry.raw?.role &&
+                              registry.raw?.role !== 'requester' ? null : (
                               <li key={index}>
                                 <button
-                                  onClick={async () =>
+                                  onClick={() =>
                                     Modal.show({
-                                      title: `Dados de ${registry.name}`,
+                                      title:
+                                        viewContentTitle ||
+                                        `Dados de ${registry.name}`,
                                       content: (
                                         <ViewContent data={registry.raw} />
                                       ),
-                                      resolver: () => 0,
+                                      resolver: () =>
+                                        viewContentResolver
+                                          ? viewContentResolver(registry.raw)
+                                          : 0,
+                                      cta: viewContentCta && viewContentCta(),
                                     })
                                   }
                                 >
