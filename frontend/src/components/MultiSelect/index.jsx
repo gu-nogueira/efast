@@ -1,6 +1,5 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef } from 'react';
 import ReactSelect, { components } from 'react-select';
-import { useField } from '@unform/core';
 
 import { styles } from './styles';
 
@@ -20,22 +19,18 @@ function Option(props) {
 }
 
 function MultiSelect({ multi, ...rest }) {
-  const selectRef = useRef(null);
-  /*
-   *  Unform registerField
-   */
-
+  const multiSelectRef = useRef(null);
   return (
     <>
       <ReactSelect
         isMulti={multi}
         closeMenuOnSelect={!multi}
         hideSelectedOptions={!multi}
-        components={{
-          Option,
-        }}
+        // components={{
+        //   Option,
+        // }}
         allowSelectAll={multi}
-        ref={selectRef}
+        ref={multiSelectRef}
         styles={styles}
         // hasError={error ? true : false}
         className="react-select-container"

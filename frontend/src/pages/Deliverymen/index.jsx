@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+
+import roles from '../../config/roles';
 
 import api from '../../services/api';
 
@@ -24,22 +26,31 @@ function Deliverymen() {
     { value: 'deliveryman', label: 'Entregador' },
   ]);
 
+  // ** Allowed roles for this view
+
+  const allowedRoles = useMemo(() => {
+    return roles.filter(
+      (role) => role.value !== 'admin' && role.value !== 'customer'
+    );
+  }, []);
+
+  // ** Allowed selected roles
+
+  const allowedSelectedRoles = useMemo(() => {
+    return selectedRoles.length > 0 ? selectedRoles : allowedRoles;
+  }, [selectedRoles, allowedRoles]);
+
   const headers = {
     id: 'ID',
     avatar: 'Foto',
     name: 'Nome',
     email: 'Email',
+    role: 'Função',
   };
-
-  const roles = [
-    { value: 'deliveryman', label: 'Entregador' },
-    { value: 'requester', label: 'Solicitante' },
-  ];
-
   const options = ['edit', 'delete'];
   const apiRoute = '/users';
   const params = {
-    roles: selectedRoles.map((role) => role.value),
+    roles: allowedSelectedRoles.map((role) => role.value),
     page: currentPage,
     perPage: 20,
     q: search,
@@ -59,6 +70,12 @@ function Deliverymen() {
               name={deliveryman.name}
               imageUrl={deliveryman.avatar?.url}
             />
+          );
+          deliveryman.role = (
+            <span className={`role ${deliveryman.role}`}>
+              {roles.find((role) => role.value === deliveryman.role)?.label ||
+                'Desconhecido'}
+            </span>
           );
 
           return deliveryman;
@@ -91,9 +108,10 @@ function Deliverymen() {
         <Wrapper flex gap={15}>
           <MultiSelect
             name="roles"
-            options={roles}
-            defaultValue={roles[0]}
+            options={allowedRoles}
+            defaultValue={allowedRoles[0]}
             onChange={setSelectedRoles}
+            placeholder="Filtrar por funções"
             multi
           />
           <Link className="button" to="/deliverymen/new">

@@ -6,6 +6,7 @@ export const styles = {
   container: (provided) => ({
     ...provided,
     margin: '0',
+    minWidth: '300px',
   }),
   indicatorsContainer: (provided) => ({
     ...provided,

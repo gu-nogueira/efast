@@ -201,6 +201,41 @@ export const Container = styled.div`
       background: ${colors.yellow1};
     }
   }
+
+  /*
+   *  Role tags
+   */
+
+  .role {
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    width: fit-content;
+  }
+
+  .admin {
+    background: ${colors.purpleLight + '40'};
+    color: ${colors.purpleLight};
+  }
+
+  .deliveryman {
+    background: ${colors.green2 + '40'};
+    color: ${colors.green1};
+  }
+
+  .requester {
+    background: ${colors.blue2 + '40'};
+    color: ${colors.blue1};
+  }
+
+  .customer {
+    background: ${colors.yellow1 + '40'};
+    color: ${colors.yellow1};
+  }
 `;
 
 export const DropBox = styled.ul`
