@@ -1,3 +1,0 @@
-# .env variables in react must start with REACT_APP_...
-
-REACT_APP_API_URL = 'http://localhost:2000'
