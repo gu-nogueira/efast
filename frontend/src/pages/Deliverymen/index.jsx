@@ -16,7 +16,7 @@ import MultiSelect from '../../components/MultiSelect';
 
 import { MdOutlineAdd } from 'react-icons/md';
 import { AiOutlineCheck } from 'react-icons/ai';
-import { Row, Wrapper, Content, Spinner } from './styles';
+import { Row, Wrapper, Content } from './styles';
 
 function Deliverymen() {
   const [loading, setLoading] = useState(false);
@@ -141,38 +141,24 @@ function Deliverymen() {
   }
 
   async function handleApproveRequest(selectedDeliveryman) {
-    function toastPromise() {
-      approveToastRef.current = toast(
-        <Wrapper flex>
-          <Spinner />
-          <span>Atualizando entregador...</span>
-        </Wrapper>,
-        {
-          autoClose: false,
-        }
-      );
-    }
-    toastPromise();
+    approveToastRef.current = toast.loading('Atualizando entregador...');
     try {
       await api.put(`/users/${selectedDeliveryman.id}/approve`);
       toast.update(approveToastRef.current, {
-        render: (
-          <Wrapper flex>
-            <AiOutlineCheck />
-            <span>Solicitação aprovada com sucesso!</span>
-          </Wrapper>
-        ),
-        type: toast.TYPE.SUCCESS,
+        render: 'Entregador atualizado com sucesso',
+        type: 'success',
         autoClose: 3000,
+        isLoading: false,
       });
       fetchDeliverymen();
     } catch (err) {
-      console.error(err);
       toast.update(approveToastRef.current, {
         render: 'Não foi possível aprovar a solicitação',
-        type: toast.TYPE.ERROR,
+        type: 'error',
         autoClose: 3000,
+        isLoading: false,
       });
+      console.error(err);
     }
   }
 

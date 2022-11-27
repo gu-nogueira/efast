@@ -7,6 +7,7 @@ import Files from '../models/Files';
 import defaultRoles from '../../config/roles';
 
 import checkUserRole from '../../utils/checkUserRole';
+import checkUUID from '../../utils/checkUUID';
 
 class UsersController {
   /*
@@ -146,6 +147,32 @@ class UsersController {
       name,
       email,
     });
+  }
+
+  async approve(req, res) {
+    const { id } = req.params;
+    if (!id) {
+      return res.status(400).json({ error: 'Missing user id' });
+    }
+
+    if (!checkUUID(id)) {
+      return res.status(400).json({ error: 'Invalid user id' });
+    }
+
+    const user = await Users.findByPk(id);
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    if (user.active) {
+      return res.status(400).json({ error: 'User is already approved' });
+    }
+
+    user.role = 'deliveryman';
+    await user.save();
+
+    return res.json({ message: `${user.name} has been approved` });
   }
 
   /*

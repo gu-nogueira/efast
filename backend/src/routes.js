@@ -56,6 +56,7 @@ routes.post('/users', UsersController.store);
 routes.get('/users', UsersController.index);
 routes.get('/users/:id', UsersController.show);
 routes.put('/users/:id', UsersController.update);
+routes.put('/users/:id/approve', UsersController.approve);
 routes.delete('/users/:id', UsersController.delete);
 
 routes.get('/recipients', RecipientsController.index);
