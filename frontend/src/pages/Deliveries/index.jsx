@@ -17,7 +17,7 @@ import SignatureExample from '../../assets/images/signaature-example.png';
 
 function ViewContent({ data }) {
   function formatCep(cep) {
-    return (Number(cep) / 1000).toString().replace('.', '-');
+    return cep.replace(/(\d{5})(\d{3})/, '$1-$2');
   }
 
   function formatDate(date) {
