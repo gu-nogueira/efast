@@ -1,0 +1,24 @@
+<p style='color: #002fff; font-weight: bold;'>A entrega #{{deliveryId}}
+  foi retirada por
+  {{deliveryman.name}}, confira os detalhes:</p>
+<p>
+
+  <strong>Dados do entregador: </strong>
+  <br />
+  <div style='font-size: 14px; display: flex; flex-direction: column;'>
+    <div><strong>Nome: </strong>{{deliveryman.name}}</div>
+    <div><strong>Email: </strong>{{deliveryman.email}}</div>
+  </div>
+  <br />
+
+  <strong>Dados da encomenda: </strong>
+  <br />
+  <div style='font-size: 14px; display: flex; flex-direction: column;'>
+    <div><strong>Produto: </strong>{{delivery.product}}</div>
+    <div><strong>ID da entrega: </strong>{{deliveryId}}</div>
+    <div><strong>Retirada em: </strong>{{date}}</div>
+  </div>
+  <br />
+
+  <strong>Acesse: {{platform}} para mais detalhes</strong>
+</p>

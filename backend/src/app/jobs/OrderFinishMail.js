@@ -9,7 +9,7 @@ class OrderMail {
    */
 
   get key() {
-    return 'OrderMail';
+    return 'OrderFinishMail';
   }
 
   // Job 'constructor'

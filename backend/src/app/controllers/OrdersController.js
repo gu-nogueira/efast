@@ -1,9 +1,3 @@
-// import Deliverymen from '../models/Deliverymen';
-import Users from '../models/Users';
-import Deliveries from '../models/Deliveries';
-import Recipients from '../models/Recipients';
-import Files from '../models/Files';
-
 import { Op } from 'sequelize';
 import {
   startOfDay,
@@ -14,6 +8,16 @@ import {
   setHours,
   setMinutes,
 } from 'date-fns';
+
+// import Deliverymen from '../models/Deliverymen';
+import Users from '../models/Users';
+import Deliveries from '../models/Deliveries';
+import Recipients from '../models/Recipients';
+import Files from '../models/Files';
+
+import Queue from '../../lib/Queue';
+
+import OrderRetreatMail from '../jobs/OrderRetreatMail';
 
 class OrderController {
   async index(req, res) {
@@ -132,10 +136,10 @@ class OrderController {
         // canceled_at: null,
       },
     });
-    if (checkOrderLimit >= 5) {
+    if (checkOrderLimit >= 10) {
       return res
         .status(400)
-        .json({ error: 'Exceeded limit of 5 orders per day' });
+        .json({ error: 'Exceeded limit of 10 orders per day' });
     }
 
     /**
@@ -159,6 +163,20 @@ class OrderController {
     }
 
     delivery.start_date = startDate;
+
+    /*
+     *  Order retreat e-mail queue schedule
+     */
+
+    try {
+      await Queue.add(OrderRetreatMail.key, {
+        delivery,
+        deliveryman,
+      });
+    } catch (err) {
+      console.error('Failed to add Queue event:', err);
+    }
+
     await delivery.save();
 
     return res.json(delivery);

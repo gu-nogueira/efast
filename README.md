@@ -165,6 +165,9 @@ pm2 list
 # Logs
 pm2 monit
 
+# Restart updating env
+pm2 restart all --update-env
+
 # Kill
 pm2 kill
 ```

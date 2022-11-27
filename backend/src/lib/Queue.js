@@ -7,9 +7,12 @@ import redisConfig from '../config/redis';
 
 // Jobs
 import OrderMail from '../app/jobs/OrderMail';
+import OrderRetreatMail from '../app/jobs/OrderRetreatMail';
+import OrderFinishMail from '../app/jobs/OrderFinishMail';
+// import OrderProblemMail from '../app/jobs/OrderProblemMail';
 import CancellationMail from '../app/jobs/CancellationMail';
 
-const jobs = [OrderMail, CancellationMail];
+const jobs = [OrderMail, OrderRetreatMail, OrderFinishMail, CancellationMail];
 
 class Queue {
   constructor() {

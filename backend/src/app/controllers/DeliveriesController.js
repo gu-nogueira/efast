@@ -146,7 +146,7 @@ class DeliveriesController {
     // await Cache.invalidate('deliveries_count');
 
     /*
-     *  E-mail queue schedule
+     *  New order available e-mail queue schedule
      */
 
     try {
