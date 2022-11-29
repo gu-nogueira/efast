@@ -3,46 +3,47 @@ import pt from 'date-fns/locale/pt';
 
 import Mail from '../../lib/Mail';
 
-class OrderRetreatMail {
+class OrderProblemMail {
   /*
-   *  OrderRetreatMail.key
+   *  OrderProblemMail.key
    */
 
   get key() {
-    return 'OrderRetreatMail';
+    return 'OrderProblemMail';
   }
 
   async handle({ data }) {
-    const { delivery, deliveryman } = data;
+    const { delivery, deliveryman, problem } = data;
     const deliveryId = delivery.id.toString().padStart(2, 0);
 
-    console.log('Queue execution: OrderRetreatMail');
+    console.log('Queue execution: OrderProblemMail');
 
     try {
       await Mail.sendMail({
         to: `Distribuidora Efast <admin@efast.com.br>`,
-        subject: `Entrega #${deliveryId} retirada.`,
-        template: 'retreat',
+        subject: `Novo problema registrado para a entrega #${deliveryId}.`,
+        template: 'problem',
         context: {
           deliveryman,
           delivery,
           deliveryId,
           platform: `${process.env.FRONTEND_URL}/deliveries`,
           date: format(
-            parseISO(delivery.start_date),
+            parseISO(new Date().toISOString()),
             "'dia' dd 'de' MMMM', às' H:mm'h'",
             {
               locale: pt,
             }
           ),
+          problem,
         },
       });
       console.log(
-        `Sending mail from retreated delivery #${deliveryId} to admin@efast.com.br.`
+        `Sending mail from new problem in delivery #${deliveryId} to admin@efast.com.br.`
       );
     } catch (err) {
       console.error('Failed to send email: ', err);
     }
   }
 }
-export default new OrderRetreatMail();
+export default new OrderProblemMail();

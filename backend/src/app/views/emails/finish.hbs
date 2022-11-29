@@ -1,23 +1,24 @@
-<p style='color: #002fff; font-weight: bold;'>A entrega #{{deliveryId}}
-  foi retirada por
-  {{deliveryman}}, confira os detalhes:</p>
+<p style='color: #00b158; font-weight: bold;'>A entrega #{{deliveryId}}
+  foi realizada por
+  {{deliveryman.name}}, confira os detalhes:</p>
 <p>
-  <strong>Cliente: </strong>
-  {{recipient}}
+
+  <strong>Dados do entregador: </strong>
+  <div style='font-size: 14px; display: flex; flex-direction: column;'>
+    <div><strong>Nome: </strong>{{deliveryman.name}}</div>
+    <div><strong>Email: </strong>{{deliveryman.email}}</div>
+    <div><strong>ID: </strong>{{deliveryman.id}}</div>
+  </div>
   <br />
-  <strong>Produto: </strong>
-  {{product}}
-  <br />
-  <strong>Horário do cadastro: </strong>
-  {{date}}
-  <br />
-  <br />
-  <strong>Dados de entrega: </strong>
+
+  <strong>Dados da encomenda: </strong>
   <br />
   <div style='font-size: 14px; display: flex; flex-direction: column;'>
-    <div><strong>Endereço: </strong>{{address}}</div>
-    <div><strong>Nº: </strong>{{number}}</div>
-    <div><strong>Cidade: </strong>{{city}}</div>
-    <div><strong>Estado: </strong>{{state}}</div>
+    <div><strong>Produto: </strong>{{delivery.product}}</div>
+    <div><strong>ID da entrega: </strong>{{deliveryId}}</div>
+    <div><strong>Entregue em: </strong>{{date}}</div>
   </div>
+  <br />
+
+  <strong>Acesse: {{platform}} para mais detalhes</strong>
 </p>

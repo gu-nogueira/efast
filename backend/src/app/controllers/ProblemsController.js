@@ -6,7 +6,9 @@ import Users from '../models/Users';
 import Files from '../models/Files';
 
 import Queue from '../../lib/Queue';
+
 import CancellationMail from '../jobs/CancellationMail';
+import OrderProblemMail from '../jobs/OrderProblemMail';
 
 import { Op } from 'sequelize';
 import * as Yup from 'yup';
@@ -231,6 +233,20 @@ class ProblemsController {
       delivery_id: delivery.id,
     });
 
+    /*
+     *  Order finish e-mail queue schedule
+     */
+
+    try {
+      await Queue.add(OrderProblemMail.key, {
+        delivery,
+        deliveryman,
+        problem,
+      });
+    } catch (err) {
+      console.error('Failed to add Queue event:', err);
+    }
+
     return res.json(problem);
   }
 
@@ -302,7 +318,16 @@ class ProblemsController {
     delivery.canceled_at = new Date();
     await delivery.save();
 
-    await Queue.add(CancellationMail.key, { delivery, problemsDescription });
+    /*
+     *  Cancellation e-mail queue schedule
+     */
+
+    try {
+      await Queue.add(CancellationMail.key, { delivery, problemsDescription });
+    } catch (err) {
+      console.log('Failed to add Queue event:', err);
+    }
+
     return res.json({
       message: `Delivery nº ${delivery.id} has been canceled`,
     });

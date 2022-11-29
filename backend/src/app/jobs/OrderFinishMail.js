@@ -1,45 +1,48 @@
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 
 import Mail from '../../lib/Mail';
 
-class OrderMail {
+class OrderFinishMail {
   /*
-   *  OrderMail.key
+   *  OrderFinishMail.key
    */
 
   get key() {
     return 'OrderFinishMail';
   }
 
-  // Job 'constructor'
   async handle({ data }) {
-    const { delivery, product, recipient, deliveryman } = data;
+    const { delivery, deliveryman } = data;
+    const deliveryId = delivery.id.toString().padStart(2, 0);
 
-    console.log('Queue execution: OrderMail');
+    console.log('Queue execution: OrderFinishMail');
 
     try {
       await Mail.sendMail({
         to: `Distribuidora Efast <admin@efast.com.br>`,
-        subject: `Entrega #${delivery.id.toString().padStart(2, 0)} realizada!`,
+        subject: `Entrega #${deliveryId} finalizada.`,
         template: 'finish',
         context: {
-          deliveryman: deliveryman.name,
-          recipient: recipient.destiny_name,
-          product: product,
-          address: recipient.address,
-          number: recipient.number,
-          city: recipient.city,
-          state: recipient.state,
-          date: format(new Date(), "'dia' dd 'de' MMMM', às' H:mm'h'", {
-            locale: pt,
-          }),
+          deliveryman,
+          delivery,
+          deliveryId,
+          platform: `${process.env.FRONTEND_URL}/deliveries`,
+          date: format(
+            parseISO(delivery.end_date),
+            "'dia' dd 'de' MMMM', às' H:mm'h'",
+            {
+              locale: pt,
+            }
+          ),
         },
       });
-      console.log(`Sending mail from new delivery to: ${deliveryman.email}`);
+      console.log(
+        `Sending mail from finished delivery #${deliveryId} to admin@efast.com.br.`
+      );
     } catch (err) {
       console.error('Failed to send email: ', err);
     }
   }
 }
-export default new OrderMail();
+export default new OrderFinishMail();

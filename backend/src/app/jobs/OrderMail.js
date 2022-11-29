@@ -12,7 +12,6 @@ class OrderMail {
     return 'OrderMail';
   }
 
-  // Job 'constructor'
   async handle({ data }) {
     const { product, recipient, deliveryman } = data;
 

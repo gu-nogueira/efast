@@ -18,6 +18,7 @@ import Files from '../models/Files';
 import Queue from '../../lib/Queue';
 
 import OrderRetreatMail from '../jobs/OrderRetreatMail';
+import OrderFinishMail from '../jobs/OrderFinishMail';
 
 class OrderController {
   async index(req, res) {
@@ -300,6 +301,20 @@ class OrderController {
 
     delivery.signature_id = signatureId || req.fileId;
     delivery.end_date = endDate;
+
+    /*
+     *  Order finish e-mail queue schedule
+     */
+
+    try {
+      await Queue.add(OrderFinishMail.key, {
+        delivery,
+        deliveryman,
+      });
+    } catch (err) {
+      console.error('Failed to add Queue event:', err);
+    }
+
     await delivery.save();
 
     return res.json(delivery);

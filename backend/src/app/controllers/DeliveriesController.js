@@ -174,8 +174,8 @@ class DeliveriesController {
 
     const schema = Yup.object().shape({
       product: Yup.string(),
-      recipient_id: Yup.number(),
-      deliveryman_id: Yup.number(),
+      recipient_id: Yup.number().required(),
+      deliveryman_id: Yup.string().required(),
       start_date: Yup.date(),
       end_date: Yup.date(),
     });
