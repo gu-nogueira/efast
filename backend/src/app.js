@@ -27,9 +27,10 @@ class App {
     if (process.env.NODE_ENV == 'development') {
       this.server.use(cors());
     } else {
-      this.server.use(
-        cors({ origin: [process.env.FRONTEND_URL, process.env.MOBILE_URL] })
-      );
+      this.server.use(cors());
+      // this.server.use(
+      //   cors({ origin: [process.env.FRONTEND_URL, process.env.MOBILE_URL] })
+      // );
     }
     this.server.use(express.json());
     this.server.use(
