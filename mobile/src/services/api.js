@@ -9,7 +9,7 @@ class ApiConnector {
 
   init() {
     this.api = axios.create({
-      baseURL: BASE_URL,
+      baseURL: BASE_URL || 'http://144.22.238.109:2000',
     });
   }
 }

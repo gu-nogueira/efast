@@ -24,6 +24,7 @@ export const Label = styled.Text`
   line-height: 14px;
   text-align: center;
   width: 56px;
+  color: #999999;
 `;
 
 export const Left = styled.TouchableOpacity`
