@@ -273,7 +273,7 @@ class ProblemsController {
           ],
         },
         {
-          model: Deliverymen,
+          model: Users,
           as: 'deliveryman',
           attributes: ['name', 'email'],
         },
