@@ -6,6 +6,7 @@ import multerConfig from './config/multer';
 
 // ** Controllers
 
+import HealthCheckController from './app/controllers/HealthCheckController';
 import UsersController from './app/controllers/UsersController';
 import SessionsController from './app/controllers/SessionsController';
 import RecipientsController from './app/controllers/RecipientsController';
@@ -25,6 +26,11 @@ const upload = multer(multerConfig);
 
 routes.post('/sessions', SessionsController.store);
 routes.post('/register', UsersController.register);
+
+routes.get(
+  '/health-555bf8344ca0caf09b42f55e185526d8',
+  HealthCheckController.show
+);
 
 // ** Authentication middleware
 
