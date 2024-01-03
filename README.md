@@ -1,199 +1,67 @@
-# Efast
+<h1 align="center">
+  <img alt="Logo" src="./public/images/logo.svg" width="200" >
+</h1>
 
-Projeto pessoal & utilizado para TCC - Fatec Botucatu - 2022
+<h1 align="center">
+  eFast - FATEC TCC Project 2022
+</h1>
+
+<p align="center">
+  <img alt ="mockup" src="./public/images/mockup.png" width="1000">
+  <!-- <img alt ="mockup" src="./public/images/mockup2.png" width="800"> -->
+</p>
+
+<p align="center">Complete delivery management application developed as a personal project and utilized for the TCC (Course Completion Work) at Fatec Botucatu - 2022. ©</p>
+
+<p align="center">Developed by: Gustavo Henrique Nogueira</p>
+
+<p align="center">
+  <a href="#about-the-project">About the Project</a> •
+  <a href="#article">Article</a> •
+  <a href="#technologies">Technologies</a> •
+  <a href="#necessary-configurations">Necessary Configurations</a> •
+  <a href="#license">License</a> •
+  <a href="#author">Author</a>
+</p>
 
 ---
 
-# Úteis
+# 📎 Useful Links
 
-- Informações sobre níveis de acesso de usuários e planos de assinatura em [definições](DEFINITIONS.md)
-- Pendências de desenvolvimento em [afazeres](TODO.md)
+- A guide on how to install and run the project is available in [installation](SETUP.md).
+- Development tasks, backlog, ideas and pending work items are listed in [todos](TODO.md).
 
 ---
 
-# Instalação
+# 📝 About the Project
 
-## Requisitos do Hipervisor
+The year 2019 was dominated by the emergence of COVID-19, leading to one of the most impactful pandemics since the Spanish flu in the 20th century. Social isolation became pivotal globally to curb the virus's spread, causing severe economic disruptions. Many businesses faced bankruptcy or closure due to unprepared logistical operations amidst the new era of social distancing. Searches for deliveries surged exponentially on Google® and Twitter®, becoming some of the most sought-after topics worldwide.
 
-### Docker
+In response to this scenario, this article analyzed and developed a SaaS (Software as a Service) business model, creating a comprehensive application consisting of a web platform and a mobile application, both communicating via API. The aim was to facilitate connections between companies and the delivery of their products to end customers. JavaScript, via the Node.js platform, and abstractions like React were utilized for UI development. The architecture demonstrated enhanced fluidity in communication between managers and couriers, functioning as a facilitator for parcel deliveries.
 
-###
+## 📝 Article
 
-## Banco principal (PostgreSQL)
+- The article published at [Jornacitec](http://www.jornacitec.fatecbt.edu.br/) is available in Portuguese, and can be found in full [here](https://drive.google.com/file/d/1ZLpfaVJJhmsL3ltrBtRO4KX4cV1FRqan/view?usp=drive_link).
 
-```bash
-docker run --name database -e POSTGRES_PASSWORD=efast@123 -p 5432:5432 -d postgres
-```
+## 🚀 Technologies
 
-### Estrutura (migrations)
+- **Backend:** Node.js • Express • Sequelize
+- **Frontend:** React • Redux • Styled Components
+- **Mobile:** React Native • Redux • React Native CLI
+- **Other:** PostgreSQL • Redis • Nginx • Docker • PM2
 
-```bash
-# NPM
-npm run sequelize db:migrate
+## ⚙️ Necessary Configurations
 
-# Yarn
-yarn sequelize db:migrate
-```
+For local deployment and usage of the eFast project, ensure you have the necessary dependencies installed as detailed in [installation](SETUP.md).
 
-### Populando dados iniciais (seeds)
+## 📄 License
 
-```bash
-# NPM
-npm run sequelize db:seed:all
+The license governing the use and distribution of this project can be found in full [here](LICENSE).
 
-# Yarn
-yarn sequelize db:seed:all
-```
+## 👨‍💻 Author
 
-## Banco de filas (Redis)
+- Gustavo Henrique Nogueira
+- GitHub: [gu-nogueira](https://github.com/gu-nogueira)
+- Email: [gus.h.nogueira@gmail.com](mailto:gus.h.nogueira@gmail.com)
 
-```bash
-  docker run --name redis -p 6379:6379 -d -t redis:alpine
-```
-
-## Container do projeto
-
-```bash
-  docker run --privileged -it --net=host --name efast -d --hostname efast ubuntu:20.04
-```
-
-### Dependências
-
-htop, vim, curl, git
-
-```bash
-# ubuntu / debian
-apt-get update && apt-get upgrade
-apt-get install -y vim curl git build-essential
-```
-
-node, npm
-
-```bash
-curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
-nvm install --lts
-```
-
-> Artigo para referência [aqui.](https://dylancastillo.co/how-to-use-github-deploy-keys/#:~:text=Create%20a%20Deploy%20Key%20on%20GitHub,-First%2C%20copy%20the&text=Click%20on%20Settings%2C%20select%20Deploy,click%20on%20Add%20deploy%20key.&text=Copy%20the%20key%20in%20the,repository%20using%20the%20deploy%20key.)
-
-### Criando conexão com Github
-
-```bash
-# Gerando chave SSH no servidor
-ssh-keygen -t ed25519 -C "gus.h.nogueira@gmail.com"
-
-# Configurando arquivo SSH para conexão
-Host github-YOUR-APP
-	HostName github.com
-  AddKeysToAgent yes
-  PreferredAuthentications publickey
-  IdentityFile ~/.ssh/id_ed25519
-
-# Pegando chave SSH
-cat ~/.ssh/id_ed25519.pub
-
-# Feito isso, basta criar a deploy key no repositório do github
-https://github.com/gu-nogueira/efast.git
-```
-
-### Clonando e configurando o projeto
-
-```bash
-# Criando diretório
-mkdir -p /var/www/html
-cd /var/www/html
-
-# http
-git clone https://github.com/gu-nogueira/efast.git
-
-# ssh
-git clone git@github.com:gu-nogueira/efast.git
-```
-
-- Backend
-
-```bash
-cd ./efast/backend
-cp .env.example .env
-vim .env
-
-# Installing
-npm install
-npm run build
-
-# Copy email template files
-cp -f -R /var/www/html/efast/backend/src/app/views /var/www/html/efast/backend/dist/app
-
-# Run scripts
-cd scripts
-node GenerateAddresses.js
-
-# Copy json address files
-cp -f -R /var/www/html/efast/backend/src/app/json /var/www/html/efast/backend/dist/app
-```
-
-- Frontend
-
-```bash
-cd /efast/frontend
-cp .env.example .env
-vim .env
-
-# Installing
-npm install
-npm run build
-```
-
-### PM2
-
-Instalação: `npm install -g pm2`
-
-```bash
-# Frontend
-npm install -g serve
-pm2 serve /var/www/html/efast/frontend/build 3001 --spa --log-date-format 'DD-MM HH:mm:ss'
-
-# API
-pm2 start /var/www/html/efast/backend/dist/server.js --log-date-format 'DD-MM HH:mm:ss'
-
-# Queues
-pm2 start /var/www/html/efast/backend/dist/queue.js --log-date-format 'DD-MM HH:mm:ss'
-
-# List
-pm2 list
-
-# Logs
-pm2 monit
-
-# Restart updating env
-pm2 restart all --update-env
-
-# Kill
-pm2 kill
-```
-
-## NGINX
-
-Instalação
-
-```bash
-apt-get install nginx
-ufw allow 80
-```
-
-Redirecionamento de porta: `vim /etc/nginx/sites-available/default`
-
-```bash
-# config
-location / {
-  proxy_pass http://localhost:3001;
-  proxy_http_version 1.1;
-  proxy_set_header Upgrade $http_upgrade;
-  proxy_set_header Connection 'upgrade';
-  proxy_set_header Host $host;
-  proxy_cache_bypass $http_upgrade;
-}
-```
-
-Reiniciar o serviço: `service nginx restart`
-Testar configuração: `nginx -t`
+Feel free to modify or expand this README to better suit the specific details and requirements of your eFast project. Add relevant sections, screenshots, or links as needed to provide comprehensive information to users and contributors.
